@@ -12,5 +12,11 @@ namespace UnitTest
         {
             var value = currency.Currency.Convertor(123, "usd", "inr");
         }
+
+        [TestMethod]
+        public void TestCurrencySymbol()
+        {
+            var value = currency.Currency.GetCurrencySymbol("inr");
+        }
     }
 }

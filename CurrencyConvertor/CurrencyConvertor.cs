@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Linq;
 using System.Net;
 
 namespace CurrencyConvertor
@@ -20,5 +22,29 @@ namespace CurrencyConvertor
 
             return (amount * exchangeRate).ToString();
         }
+
+        public static string GetCurrencySymbol(string currencyType)
+        {
+            var symbol = CultureInfo
+        .GetCultures(CultureTypes.AllCultures)
+        .Where(c => !c.IsNeutralCulture)
+        .Select(culture =>
+        {
+            try
+            {
+                return new RegionInfo(culture.Name);
+            }
+            catch
+            {
+                return null;
+            }
+        })
+        .Where(ri => ri != null && ri.ISOCurrencySymbol == currencyType.ToUpper())
+        .Select(ri => ri.CurrencySymbol)
+        .FirstOrDefault();
+
+            return symbol;
+        }
+
     }
 }
